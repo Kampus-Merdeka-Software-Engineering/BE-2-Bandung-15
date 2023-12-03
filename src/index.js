@@ -1,39 +1,25 @@
+require('dotenv').config();
 const express = require('express');
-const mysql = require('mysql2');
 const app = express();
-const port = 3000;
+const PORT = process.env.PORT || 4000;
 
 const userRoutes = require('./routes/users.js');
 const middlewareLogRequest = require('./middleware/logs.js');
+const upload = require('./middleware/multer.js');
 
-const dbPool = mysql.createPool({
-  host: 'localhost',
-  user: 'root',
-  password: '201201',
-  database: 'express_mysql',
-});
-
-// app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 app.use(middlewareLogRequest);
+app.use('/assets', express.static('public'));
 
 app.use('/users', userRoutes);
-
-app.use('/', (req, res) => {
-  dbPool.execute('SELECT * FROM users', (err, rows) => {
-    if (err) {
-      res.json({
-        message: 'Connection failed'
-      })
-    }
+app.use('/upload', upload.single('photo'), (req, res) => {
     res.json({
-      message: 'Connection success',
-      data: rows,
+        message: 'Upload berhasil'
     })
-  });
 })
 
-app.listen(port, () => {
-    console.log(`Server up and running at http://localhost:${port}`);
+app.listen(PORT, () => {
+    console.log(`Server up and running at http://localhost:${PORT}`);
 });
