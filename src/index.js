@@ -16,7 +16,7 @@ app.use('/assets', express.static('public'));
 app.use('/users', userRoutes);
 app.use('/upload', upload.single('photo'), (req, res) => {
     res.json({
-        message: 'Upload berhasil'
+        message: 'Upload success'
     })
 })
 
