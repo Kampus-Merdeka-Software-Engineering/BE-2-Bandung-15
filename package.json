@@ -1,7 +1,7 @@
 {
   "name": "be-2-bandung-15",
   "version": "1.0.0",
-  "description": "",
+  "description": "capstone project by group 15 made using express prisma and mysql",
   "main": "index.js",
   "scripts": {
     "start": "nodemon src/index.js"
@@ -10,8 +10,12 @@
     "type": "git",
     "url": "git+https://github.com/Kampus-Merdeka-Software-Engineering/BE-2-Bandung-15.git"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "express", 
+    "prisma", 
+    "mysql"
+  ],
+  "author": "group15",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/Kampus-Merdeka-Software-Engineering/BE-2-Bandung-15/issues"
