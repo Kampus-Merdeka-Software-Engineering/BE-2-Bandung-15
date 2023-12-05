@@ -1,4 +1,4 @@
-# Simple app for our 'Galerry Hotel' Capstone Project using Express.js and Prisma
+# Simple app for our 'Gallery Hotel' Capstone Project using Express.js and Prisma
 
 # Langkah-langkah pengerjaan project ini
 
@@ -8,8 +8,7 @@
 
 ```json
 "script": {
-    "start": "node index.js",
-    "start:dev": "nodemon index.js"
+    "start": "nodemon index.js",
 },
 ```
 
@@ -93,12 +92,76 @@ npm install -D prisma
 ```bash
 prisma init
 ```
-by 
 
-13. 
-14.
-15.
-16.
-17.
-18.
-19. 
+By default prisma akan menginisiasi project dengan database PostgreSQL, jika ingin memakai database mySQL maka bisa menggunakan command berikut.
+
+```bash
+npx prisma init --datasource-provider mysql
+```
+
+Notes: bacaan lanjutan bisa kalian baca [disini](https://www.prisma.io/docs/concepts/database-connectors/mysql).
+
+13. Lalu akan ada kode tambahan pada file `.env` yaitu `DATABASE_URL` yang mana diisi sesuai dengan `DATABASE_URL` kita, bisa diisi menggunakan `DATABASE_URL` dari local, yaitu `"mysql://root:password@localhost:3306/express_mysql"`. Dan ada satu file khusus yang ter-generate dalam sebuah folder bernama `prisma` dengan nama file `schema.prisma`, dimana kita harus mendefinisikan model sesuai dengan yang sudah direncanakan.
+
+14. Jika ingin file `schema.prisma` berwarna atau diberi highlight pada syntaxnya, kita bisa download extension [ini](https://marketplace.visualstudio.com/items?itemName=Prisma.prisma).
+
+15. Kita bisa membuat schema database dari yang sudah direncanakan dalam file `schema.prisma` yang mana ada syntaxnya sendiri, bisa baca dokumentasinya di link [ini].
+
+Berikut contoh model dari schema yang dibuat.
+
+```text
+model Product {
+  id        Int      @id @default(autoincrement())
+  name      String
+  price     Int
+  imageUrl  String? // arti ?, not required, kalau pengen dibikin gapapa deh kalau datanya kosong
+  catalogId Int?
+  createdAt DateTime @default(now())
+  // untuk menambahkan relasi dari Product ke Catalog dimana Product boleh gapunya catalog
+  Catalog   Catalog? @relation(fields: [catalogId], references: [id])
+}
+
+model Catalog {
+  id       Int       @id @default(autoincrement())
+  name     String
+  // untuk nambahin relasi antara catalog dengan Product
+  products Product[] // ini artinya Catalog punya banyak product
+}
+
+model Message {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String
+  message   String   @db.Text // biar bisa nyimpen pesan dengan karakter yang panjang
+  createdAt DateTime @default(now())
+}
+```
+
+16. Setelah mendefinisikan model di `schema.prisma`, kita bisa melakukan synchronization database kita dengan schema yang sudah dibuat tadi menggunakan command berikut.
+
+```bash
+npx prisma migrate dev --name <nama_apa_yang_kita_lakukan>
+```
+
+<nama_apa_yang_kita_lakukan>bisa diganti dengan aktivitas apa yang baru saja dilakukan, contoh:
+
+1. Inisialisasi
+2. add_new_model_User
+3. add_relation_to_catalog_and_product
+
+`npx prisma migrate dev` wajib dilakukan setiap kali kita sudah selesai mengubah `schema.prisma` atau ada perubahan pada schema, agar database selalu tersinkronisasi.
+
+Atau apabila kita ingin melakukan sinkronisasi dengan cara lain di prisma, bisa dengan cara berikut.
+
+`npx prisma db push`
+
+17. Merujuk pada dokumentasinya, untuk bisa menggunakan Prisma ORM, kita perlu menggunakan package `@prisma/client` untuk membuat koneksi dengan prisma dan melakukan CRUD operations. Perlu untuk membuat satu file configuration yang mana akan dibuat pada folder `config` dan kita beri nama `prisma.js` dengan isi sebagai berikut.
+
+```bash
+// prisma.js
+const { PrismaClient } = require("@prisma/client");
+const prisma = new PrismaClient();
+module.exports = { prisma };
+```
+
+18. Setelah dibuat menjadi suatu config, untuk bisa digunakan di file yang lain kita bisa langsung gunakan saja untuk mengambil data dari database atau hal yang lain seperti memasukkan data, update data, mengambil relasi, dan masih banyak lagi. Bisa langsung lihat cara penggunaannya pada setiap route yang telah dibuat.
