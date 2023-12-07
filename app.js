@@ -36,6 +36,7 @@ app.get("/", (req, res) => {
 require("./src/routes/post.route.js")(app) // posts route
 require("./src/routes/message.route.js")(app) // messages route
 require("./src/routes/booking.route.js")(app) // bookings route
+require("./src/routes/user.route.js")(app) // users route
 
 app.all("*", async (req, res) => {
     res.json({

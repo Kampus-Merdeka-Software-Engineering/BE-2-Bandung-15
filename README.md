@@ -1,4 +1,4 @@
-# Simple app for our 'Gallery Hotel' Capstone Project using Express.js and Prisma
+# Simple app for our 'Gallery Hotel' Capstone Project using Express.js, MySQL, and Prisma
 
 # Langkah-langkah pengerjaan project ini
 
