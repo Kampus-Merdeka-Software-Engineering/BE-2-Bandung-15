@@ -105,37 +105,7 @@ Notes: bacaan lanjutan bisa kalian baca [disini](https://www.prisma.io/docs/conc
 
 14. Jika ingin file `schema.prisma` berwarna atau diberi highlight pada syntaxnya, kita bisa download extension [ini](https://marketplace.visualstudio.com/items?itemName=Prisma.prisma).
 
-15. Kita bisa membuat schema database dari yang sudah direncanakan dalam file `schema.prisma` yang mana ada syntaxnya sendiri, bisa baca dokumentasinya di link [ini].
-
-Berikut contoh model dari schema yang dibuat.
-
-```text
-model Product {
-  id        Int      @id @default(autoincrement())
-  name      String
-  price     Int
-  imageUrl  String? // arti ?, not required, kalau pengen dibikin gapapa deh kalau datanya kosong
-  catalogId Int?
-  createdAt DateTime @default(now())
-  // untuk menambahkan relasi dari Product ke Catalog dimana Product boleh gapunya catalog
-  Catalog   Catalog? @relation(fields: [catalogId], references: [id])
-}
-
-model Catalog {
-  id       Int       @id @default(autoincrement())
-  name     String
-  // untuk nambahin relasi antara catalog dengan Product
-  products Product[] // ini artinya Catalog punya banyak product
-}
-
-model Message {
-  id        Int      @id @default(autoincrement())
-  name      String
-  email     String
-  message   String   @db.Text // biar bisa nyimpen pesan dengan karakter yang panjang
-  createdAt DateTime @default(now())
-}
-```
+15. Kita bisa membuat schema database dari yang sudah direncanakan dalam file `schema.prisma` yang mana ada syntaxnya sendiri, bisa baca dokumentasinya di link [ini](https://www.prisma.io/docs/getting-started/setup-prisma/start-from-scratch/relational-databases/using-prisma-migrate-typescript-postgresql).
 
 16. Setelah mendefinisikan model di `schema.prisma`, kita bisa melakukan synchronization database kita dengan schema yang sudah dibuat tadi menggunakan command berikut.
 
