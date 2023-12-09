@@ -1,33 +1,26 @@
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
+const { PrismaClient } = require("@prisma/client");
 
 const app = express();
-const PORT = process.env.PORT || 4000;
+const port = process.env.PORT || 4000;
+const prisma = new PrismaClient();
 
 const middlewareLogRequest = require("./src/middleware/logs.js");
-const upload = require("./src/middleware/multer.js");
 
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
 app.use(middlewareLogRequest);
 
-app.use("/assets", express.static("public"));
-app.use("/upload", upload.single("photo"), (req, res) => {
-    res.json({
-        message: "Upload success"
+prisma.$connect()
+    .then(() => {
+        console.log("Database connected");
+    }).catch((error) => {
+        console.error(error);
+        process.exit(1);
     })
-});
-
-// prisma.$connect()
-//     .then(() => {
-//         console.log("Database connected");
-//     }).catch((error) => {
-//         console.log(error);
-//         process.exit(1);
-//     })
 
 app.get("/", (req, res) => {
     res.send("Here is the respond!");
@@ -44,6 +37,6 @@ app.all("*", async (req, res) => {
     });
 });
 
-app.listen(PORT, "0.0.0.0", () => {
-    console.log(`Server up and running at http://localhost:${PORT}`);
+app.listen(port, "0.0.0.0", () => {
+    console.log(`Server up and running at http://localhost:${port}`);
 });
