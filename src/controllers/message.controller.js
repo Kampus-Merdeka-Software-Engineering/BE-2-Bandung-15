@@ -6,7 +6,7 @@ exports.getAllMessages = async (req, res) => {
         const messages = await prisma.message.findMany();
         res.status(200).json({ message: "Success", data: messages });
     } catch (error) {
-        console.log(error);
+        console.error(error);
         res.status(500).json({ message: "Error" });
     }
 }
@@ -29,7 +29,7 @@ exports.createMessage = async (req, res) => {
         });
 
     } catch (error) {
-        console.log(error);
+        console.error(error);
         res.status(500).json({ message: "Error" });
     }
 }

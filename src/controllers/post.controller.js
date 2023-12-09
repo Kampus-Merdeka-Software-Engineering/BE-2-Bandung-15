@@ -10,7 +10,7 @@ exports.findAll = async (req, res) => {
         });
         res.status(200).json({ message: "Success", data: hotels });
     } catch (error) {
-        console.log(error);
+        console.error(error);
         res.status(500).json({ message: "Error" });
     }
 }
