@@ -27,7 +27,6 @@ model Booking {
   totalRooms  Int
   paymentMode String
   createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
   hotelId     Int
   hotel       Hotel    @relation(fields: [hotelId], references: [id], onDelete:Cascade )
 }
@@ -40,7 +39,6 @@ model Hotel {
   city        String
   price       Float
   createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
   images      Image[]
   booking     Booking[]
 }
