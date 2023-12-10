@@ -4,7 +4,8 @@
   "description": "capstone project by group 15 made using express prisma and mysql",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon app.js"
+    "start": "nodemon app.js",
+    "postinstall": "prisma generate"
   },
   "repository": {
     "type": "git",
