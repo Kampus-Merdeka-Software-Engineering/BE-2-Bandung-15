@@ -141,3 +141,27 @@ exports.delete = async (req, res) => {
     });
   }
 };
+exports.findByLocation = async (req, res) => {
+  const { query } = req.query;
+  
+  try {
+      if (!query) {
+        return res.status(400).json({ error: 'Parameter query is required.' });
+      }
+  
+      const hotels = await prisma.post.findMany({
+          where: {
+            OR: [
+              { location: { contains: query.toLowerCase() } },
+            ],
+          },
+          include: {
+            images: true,
+          }});          
+  
+      res.json({ hotels });
+    } catch (error) {
+      console.error('Error searching hotels:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+};

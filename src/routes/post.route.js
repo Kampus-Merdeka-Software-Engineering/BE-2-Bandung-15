@@ -10,6 +10,7 @@ module.exports = function (app) {
     router.get("/:id", posts.findOne);
     router.put("/:id", posts.update);
     router.delete("/:id", posts.delete);
+    router.get("/search", posts.findByLocation);
 
     app.use("/api/posts", router);
 }
