@@ -4,7 +4,7 @@ const cors = require("cors");
 const { PrismaClient } = require("@prisma/client");
 
 const app = express();
-const PORT = process.env.PORT || 5000
+const PORT = process.env.PORT || 5000;
 const prisma = new PrismaClient();
 
 const middlewareLogRequest = require("./src/middleware/logs.js");
