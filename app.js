@@ -4,7 +4,7 @@ const cors = require("cors");
 const { PrismaClient } = require("@prisma/client");
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = 5000;
 const prisma = new PrismaClient();
 
 const middlewareLogRequest = require("./src/middleware/logs.js");
@@ -43,5 +43,5 @@ app.all("*", async (req, res) => {
 });
 
 app.listen(PORT, () => {
-    console.log("Server is running....")
+    console.log(`http://localhost:${PORT}`)
 })

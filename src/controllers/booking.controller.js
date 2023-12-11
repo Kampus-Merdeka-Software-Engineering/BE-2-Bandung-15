@@ -1,39 +1,51 @@
 const prisma = require("../config/prisma");
 
+
+   
+
 exports.createBooking = async (req, res) => {
+    const { name,
+        checkIn,
+        checkOut,
+        type,
+        price,
+        visitors,
+        paymentMode,
+        hotelId,
+        totalRooms,} = req.body;
+    const id = parseInt(hotelId);
     try {
-        const {
+      // Cek ketersediaan post berdasarkan hotelId
+      const post = await prisma.hotel.findUnique({
+        where: { id: id },
+      });
+  
+      if (!post) {
+        return res.status(404).send({
+          message: `Post not found with id ${hotelId}`,
+        });
+      }
+  
+      // Buat booking baru
+      const newBooking = await prisma.booking.create({
+        data: {
             name,
             checkIn,
             checkOut,
             type,
-            price,
-            visitors,
+            price: parseInt(price),
+            visitors: parseInt(visitors),
             paymentMode,
-            hotelId,
-            totalRooms,
-        } = req.body;
-        
-        const newBooking = await prisma.booking.create({
-            data: {
-                name,
-                checkIn: new Date(checkIn).toISOString(),  // Ubah ke format ISO string,
-                checkOut: new Date(checkOut).toISOString(),  // Ubah ke format ISO string,
-                type,
-                price,
-                visitors,
-                paymentMode,
-                hotelId,
-                totalRooms,
-            },
-        });
-
-        res.status(201).json({
-            message: 'Booking created successfully',
-            data: newBooking
-        });
+            hotelId: parseInt(hotelId),
+            totalRooms: parseInt(totalRooms),
+        },
+      });
+      
+      res.status(201).send(newBooking);
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Internal Server Error' });
+      console.error(error);
+      res.status(500).send({
+        message: "Error creating booking",
+      });
     }
 };
